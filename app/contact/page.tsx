@@ -2,6 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ContactForm from '@/components/ContactForm';
 import './contact.css';
 
 export const metadata: Metadata = {
@@ -110,49 +111,7 @@ export default function ContactPage() {
             <div className="section-kicker">SEND MESSAGE</div>
             <h2 id="message-title">ฝากข้อความถึงเรา</h2>
 
-            <form
-              className="contact-form"
-              action="mailto:homglaigroup@gmail.com"
-              method="post"
-              encType="text/plain"
-            >
-              <div className="form-field form-field-full">
-                <label htmlFor="full-name">
-                  ชื่อ - นามสกุล <span>*</span>
-                </label>
-                <input id="full-name" name="ชื่อ-นามสกุล" type="text" required />
-              </div>
-
-              <div className="form-row">
-                <div className="form-field">
-                  <label htmlFor="phone">
-                    เบอร์โทร <span>*</span>
-                  </label>
-                  <input id="phone" name="เบอร์โทร" type="tel" required />
-                </div>
-                <div className="form-field">
-                  <label htmlFor="email">อีเมล</label>
-                  <input id="email" name="อีเมล" type="email" />
-                </div>
-              </div>
-
-              <div className="form-field form-field-full">
-                <label htmlFor="message">
-                  ข้อความ <span>*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="ข้อความ"
-                  rows={7}
-                  required
-                ></textarea>
-              </div>
-
-              <button className="contact-submit" type="submit">
-                <i className="fas fa-paper-plane"></i>
-                ส่งข้อความ
-              </button>
-            </form>
+            <ContactForm />
           </section>
         </div>
       </main>
