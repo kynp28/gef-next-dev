@@ -74,14 +74,6 @@ export default function Footer() {
                 ความไว้วางใจจากลูกค้า
               </a>
             </li>
-            <li>
-              <a
-                href="#news"
-                onClick={(e) => handleAnchorClick(e, '#news')}
-              >
-                ข่าวสารและกิจกรรม
-              </a>
-            </li>
           </ul>
         </div>
 

@@ -190,7 +190,7 @@ h1, h2, h3, h4 {
     position: relative;
 }
 
-/* ปุ่มชื่อแบรนด์ */
+/* เธเธธเนเธกเธเธทเนเธญเนเธเธฃเธเธ”เน */
 .dropdown-submenu > .brand-trigger {
     display: flex;
     align-items: center;
@@ -198,18 +198,18 @@ h1, h2, h3, h4 {
     gap: 16px;
 }
 
-/* ลูกศรข้างชื่อแบรนด์ */
+/* เธฅเธนเธเธจเธฃเธเนเธฒเธเธเธทเนเธญเนเธเธฃเธเธ”เน */
 .brand-trigger .fa-chevron-right {
     font-size: 0.7rem;
     transition: transform 0.25s ease;
 }
 
-/* หมุนลูกศรเมื่อเมนูเปิด */
+/* เธซเธกเธธเธเธฅเธนเธเธจเธฃเน€เธกเธทเนเธญเน€เธกเธเธนเน€เธเธดเธ” */
 .dropdown-submenu.open > .brand-trigger .fa-chevron-right {
     transform: rotate(90deg);
 }
 
-/* เมนูรุ่นสินค้า */
+/* เน€เธกเธเธนเธฃเธธเนเธเธชเธดเธเธเนเธฒ */
 .brand-menu {
     position: absolute;
     top: -1px;
@@ -229,7 +229,7 @@ h1, h2, h3, h4 {
     box-shadow: var(--shadow);
 }
 
-/* แสดงเมนูรุ่นเมื่อ Hover หรือ Click */
+/* เนเธชเธ”เธเน€เธกเธเธนเธฃเธธเนเธเน€เธกเธทเนเธญ Hover เธซเธฃเธทเธญ Click */
 .dropdown-submenu:hover > .brand-menu,
 .dropdown-submenu.open > .brand-menu {
     opacity: 1;
@@ -237,7 +237,7 @@ h1, h2, h3, h4 {
     transform: translateX(0);
 }
 
-/* เส้นแบ่งรายการรุ่น */
+/* เน€เธชเนเธเนเธเนเธเธฃเธฒเธขเธเธฒเธฃเธฃเธธเนเธ */
 .brand-menu li {
     border-bottom: 1px solid var(--border);
 }
@@ -246,7 +246,7 @@ h1, h2, h3, h4 {
     border-bottom: none;
 }
 
-/* ลิงก์รุ่นสินค้า */
+/* เธฅเธดเธเธเนเธฃเธธเนเธเธชเธดเธเธเนเธฒ */
 .brand-menu li a {
     display: block;
     padding: 15px 20px;
@@ -271,8 +271,12 @@ h1, h2, h3, h4 {
     width: 25px;
     height: 3px;
     margin: 5px auto;
-    background: var(--text);
+    background: #fff;
     transition: var(--transition);
+}
+
+.navbar.scrolled .bar, .hamburger.active .bar {
+    background: var(--text);
 }
 
 /* ===== 2. HERO SECTION ===== */
@@ -965,7 +969,7 @@ h1, h2, h3, h4 {
 }
 
 .modal-features li:before {
-    content: "✓";
+    content: "โ“";
     color: var(--primary);
     font-weight: bold;
     font-size: 1.2rem;
@@ -1190,7 +1194,7 @@ h1, h2, h3, h4 {
         justify-content: center;
     }
 
-    /* เมนูรุ่นบนมือถือ */
+    /* เน€เธกเธเธนเธฃเธธเนเธเธเธเธกเธทเธญเธ–เธทเธญ */
     .brand-menu {
         position: static;
 
@@ -1207,7 +1211,7 @@ h1, h2, h3, h4 {
         box-shadow: none;
     }
 
-    /* แสดงรายการรุ่นเมื่อกดชื่อแบรนด์ */
+    /* เนเธชเธ”เธเธฃเธฒเธขเธเธฒเธฃเธฃเธธเนเธเน€เธกเธทเนเธญเธเธ”เธเธทเนเธญเนเธเธฃเธเธ”เน */
     .dropdown-submenu.open > .brand-menu {
         display: block;
     }

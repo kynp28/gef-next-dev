@@ -24,7 +24,7 @@ const slidesData: SlideData[] = [
     videoSrc: '/media/video/huracan.mov',
     videoType: 'video/mp4',
     title: 'Huracan K9 PRO',
-    subtitle: 'พลัง 300W เงียบกว่า ทนทานกว่า ตอบโจทย์ทุกธุรกิจเครื่องดื่ม',
+    subtitle: 'พลัง 1,500 - 2,000W เงียบกว่า ทนทานกว่า ตอบโจทย์ทุกธุรกิจเครื่องดื่ม',
     btnLink: '#product-k9pro',
     preload: 'metadata', // Don't download all 64MB at once until played
   },

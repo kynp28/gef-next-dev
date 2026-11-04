@@ -54,7 +54,6 @@ export default function Navbar({ isContactPage = false }: NavbarProps) {
   const handleProductsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setProductsDropdownOpen(!productsDropdownOpen);
-    smoothScrollTo('#products');
   };
 
   const handleBrandClick = (e: React.MouseEvent<HTMLAnchorElement>, brand: string) => {
@@ -167,12 +166,16 @@ export default function Navbar({ isContactPage = false }: NavbarProps) {
                     >
                       A9 PLUS
                     </a>
+                  </li>
+                  <li>
                     <a
                       href="#product-s9pro"
                       onClick={(e) => handleAnchorClick(e, '#product-s9pro')}
                     >
                       S9 PRO
                     </a>
+                  </li>
+                  <li>
                     <a
                       href="#product-v3pro"
                       onClick={(e) => handleAnchorClick(e, '#product-v3pro')}

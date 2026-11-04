@@ -56,7 +56,7 @@ export const productModalData: Record<ProductKey, ModalProductData> = {
       "ปั่นเงียบ เสียงเบากว่า 40 dB",
       "วัสดุหุ้มฉนวนกันเสียงแบบ 2 ชั้น หนากว่า 9mm ป้องกันเสียงรบกวน",
       "ระบบป้องกันความปลอดภัย ป้องกันกระแสไฟและอุณหภูมิเกิน",
-      "Super Motor มอเตอร์ไร้แปลงถ่าน นำเข้าจากญี่ปุ่น"
+      "Super Motor มอเตอร์ไร้แปรงถ่าน นำเข้าจากญี่ปุ่น"
     ],
     specs: [
       { label: "กำลัง", value: "1,500 - 2,000 W, 220 - 240V" },
@@ -70,7 +70,7 @@ export const productModalData: Record<ProductKey, ModalProductData> = {
     title: "GEF S9 PRO",
     subtitle: "ความสมบูรณ์แบบที่ปรับแต่งได้",
     image: "/media/image/A9Details.jpg",
-    description: "ใช้พื้นที่บาร์อย่างคุ้มค่า ออกแบบโดยคำนึงถึงความกะทัดรัดของพื้นที่โดยรวมเครื่องปันสมูทตี้ที่เหมาะกับร้านกาแฟและชา ปั่นได้ตั้งแต่เช้าจรดค่ำ",
+    description: "ใช้พื้นที่บาร์อย่างคุ้มค่า ออกแบบโดยคำนึงถึงความกะทัดรัดของพื้นที่โดยรวมเครื่องปั่นสมูทตี้ที่เหมาะกับร้านกาแฟและชา ปั่นได้ตั้งแต่เช้าจรดค่ำ",
     features: [
       "กำลังสูงสุด 4 แรงม้า มอเตอร์ไร้แปรงถ่าน V8",
       "อายุการใช้งานสูงถึง 400,000 รอบ มากกว่ามอเตอร์ AC 10 เท่า",
@@ -132,7 +132,7 @@ export const featureProducts: FeatureProductData[] = [
     imageAlt: "GEF A9 PLUS Blender",
     reverse: true,
     featureList: [
-      "อายุการใช้งานมอเตอร์นานกว่านานกว่ามอเตอร์ซีรี่ย์ทั่วไปถึง 10 เท่า ",
+      "อายุการใช้งานมอเตอร์นานกว่ามอเตอร์ซีรีส์ทั่วไปถึง 10 เท่า",
       "เทคโนโลยีออกแบบเครื่อง ป้องกันน้ำและความชื้น ",
       "ใช้งานง่ายด้วยปุ่มกดแบบอัตโนมัติ และมีโปรแกรมปรับแต่ง DIY "
     ]
@@ -143,8 +143,8 @@ export const featureProducts: FeatureProductData[] = [
     title: "GEF S9 PRO",
     subtitle: "สุดยอดเครื่องปั่นสำหรับมืออาชีพ",
     description: "ใช้พื้นที่บาร์อย่างคุ้มค่า ออกแบบโดยคำนึงถึงความกะทัดรัดของพื้นที่โดยรวม เครื่องปั่นสมูทตี้ที่เหมาะกับร้านกาแฟและชา ปั่นได้ตั้งแต่เช้าจรดค่ำ",
-    image: "/media/image/K9_Pro.png",
-    imageAlt: "Huracan K9 PRO Blender",
+    image: "/media/image/A9Details.jpg",
+    imageAlt: "GEF S9 PRO Blender",
     reverse: false,
     featureList: [
       "มอเตอร์ DC ทนทาน ความเร็วสูง ไม่สะสมความร้อน",
@@ -158,8 +158,8 @@ export const featureProducts: FeatureProductData[] = [
     title: "GEF V3 PRO",
     subtitle: "ปั่นได้ตลอดทั้งวันไม่ต้องพัก",
     description: "เครื่องปั่นเชิงพาณิชย์ที่ออกแบบมาเพื่อเครื่องดื่มยุคใหม่โดยเฉพาะ เพิ่มประสิทธิภาพการทำงานหน้าร้านให้ดียิ่งขึ้นพร้อมความปลอดภัยที่มั่นใจได้",
-    image: "/media/image/GEF_A9_Plus.png",
-    imageAlt: "GEF S9Pro Blender",
+    image: "/media/image/V3-Details.png",
+    imageAlt: "GEF V3 PRO Blender",
     reverse: true,
     featureList: [
       "ทนทานต่อการใช้งาน ถี่สูงกว่า 300,000 รอบ ",
