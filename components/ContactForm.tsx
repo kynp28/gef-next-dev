@@ -1,171 +1,136 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { AlertIcon, CheckIcon, SendIcon } from '@/components/Icons';
+
+type Status = 'idle' | 'loading' | 'success' | 'error';
+
+const EMPTY = { fullName: '', phone: '', email: '', message: '' };
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    message: '',
-  });
-
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [formData, setFormData] = useState(EMPTY);
+  const [status, setStatus] = useState<Status>('idle');
+  const [feedback, setFeedback] = useState('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    setFeedbackMessage('');
+    setFeedback('');
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       const data = await res.json();
 
       if (res.ok && data.success) {
         setStatus('success');
-        setFeedbackMessage(data.message || 'ส่งข้อความเรียบร้อยแล้ว ขอบคุณครับ');
-        setFormData({
-          fullName: '',
-          phone: '',
-          email: '',
-          message: '',
-        });
+        setFeedback(data.message || 'ส่งข้อความเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด');
+        setFormData(EMPTY);
       } else {
         setStatus('error');
-        setFeedbackMessage(data.error || 'เกิดข้อผิดพลาดในการส่งข้อมูล');
+        setFeedback(data.error || 'ส่งข้อความไม่สำเร็จ กรุณาตรวจสอบข้อมูลแล้วลองอีกครั้ง');
       }
     } catch {
       setStatus('error');
-      setFeedbackMessage('ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง');
+      setFeedback('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาลองอีกครั้ง หรือโทร 061-771-1139');
     }
   };
 
+  const busy = status === 'loading';
+
   return (
     <form className="contact-form" onSubmit={handleSubmit}>
-      {status === 'success' && (
-        <div
-          style={{
-            padding: '14px 16px',
-            backgroundColor: 'var(--contact-soft-red, #edf8eb)',
-            color: 'var(--contact-red, #187a07)',
-            border: '1px solid var(--contact-red, #187a07)',
-            fontSize: '0.9rem',
-            lineHeight: 1.5,
-          }}
-        >
-          <i className="fas fa-check-circle" style={{ marginRight: 8 }}></i>
-          {feedbackMessage}
-        </div>
-      )}
+      <div aria-live="polite">
+        {status === 'success' && (
+          <p className="form-alert form-alert-ok" role="status">
+            <CheckIcon />
+            <span>{feedback}</span>
+          </p>
+        )}
+        {status === 'error' && (
+          <p className="form-alert form-alert-error" role="alert">
+            <AlertIcon />
+            <span>{feedback}</span>
+          </p>
+        )}
+      </div>
 
-      {status === 'error' && (
-        <div
-          style={{
-            padding: '14px 16px',
-            backgroundColor: '#fde8e8',
-            color: '#c81e1e',
-            border: '1px solid #f98080',
-            fontSize: '0.9rem',
-            lineHeight: 1.5,
-          }}
-        >
-          <i className="fas fa-exclamation-circle" style={{ marginRight: 8 }}></i>
-          {feedbackMessage}
-        </div>
-      )}
-
-      <div className="form-field form-field-full">
+      <div className="form-field">
         <label htmlFor="full-name">
-          ชื่อ - นามสกุล <span>*</span>
+          ชื่อ - นามสกุล <span className="req" aria-hidden="true">*</span>
         </label>
         <input
           id="full-name"
           name="fullName"
           type="text"
+          autoComplete="name"
           value={formData.fullName}
           onChange={handleChange}
           required
-          disabled={status === 'loading'}
+          disabled={busy}
         />
       </div>
 
       <div className="form-row">
         <div className="form-field">
           <label htmlFor="phone">
-            เบอร์โทร <span>*</span>
+            เบอร์โทร <span className="req" aria-hidden="true">*</span>
           </label>
           <input
             id="phone"
             name="phone"
             type="tel"
+            inputMode="tel"
+            autoComplete="tel"
             value={formData.phone}
             onChange={handleChange}
             required
-            disabled={status === 'loading'}
+            disabled={busy}
           />
         </div>
         <div className="form-field">
-          <label htmlFor="email">อีเมล</label>
+          <label htmlFor="email">อีเมล (ไม่บังคับ)</label>
           <input
             id="email"
             name="email"
             type="email"
+            autoComplete="email"
             value={formData.email}
             onChange={handleChange}
-            disabled={status === 'loading'}
+            disabled={busy}
           />
         </div>
       </div>
 
-      <div className="form-field form-field-full">
+      <div className="form-field">
         <label htmlFor="message">
-          ข้อความ <span>*</span>
+          ข้อความ <span className="req" aria-hidden="true">*</span>
         </label>
         <textarea
           id="message"
           name="message"
-          rows={7}
+          rows={6}
+          placeholder="เช่น รุ่นที่สนใจ จำนวนเครื่อง หรือจังหวัดที่ต้องจัดส่ง"
           value={formData.message}
           onChange={handleChange}
           required
-          disabled={status === 'loading'}
-        ></textarea>
+          disabled={busy}
+        />
       </div>
 
-      <button
-        className="contact-submit"
-        type="submit"
-        disabled={status === 'loading'}
-        style={{
-          opacity: status === 'loading' ? 0.7 : 1,
-          cursor: status === 'loading' ? 'not-allowed' : 'pointer',
-        }}
-      >
-        <i
-          className={
-            status === 'loading'
-              ? 'fas fa-spinner fa-spin'
-              : 'fas fa-paper-plane'
-          }
-        ></i>
-        {status === 'loading' ? 'กำลังส่งข้อความ...' : 'ส่งข้อความ'}
+      <button className="btn btn-solid" type="submit" disabled={busy}>
+        <SendIcon />
+        {busy ? 'กำลังส่ง...' : 'ส่งข้อความ'}
       </button>
     </form>
   );

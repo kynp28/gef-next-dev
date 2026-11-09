@@ -1,111 +1,164 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import Image from 'next/image';
+import { CheckIcon, CloseIcon } from '@/components/Icons';
 import { ProductKey, productModalData } from '@/lib/products';
+import { SITE } from '@/lib/site';
 
-interface ProductModalProps {
-  activeKey: ProductKey | null;
-  onClose: () => void;
+interface ModalContextValue {
+  open: (key: ProductKey) => void;
 }
 
-export default function ProductModal({ activeKey, onClose }: ProductModalProps) {
+const ModalContext = createContext<ModalContextValue | null>(null);
+
+export function useProductModal() {
+  const ctx = useContext(ModalContext);
+  if (!ctx) throw new Error('useProductModal must be used inside ProductModalProvider');
+  return ctx;
+}
+
+/** Button that opens the spec dialog for one product. */
+export function OpenProductButton({
+  productKey,
+  className,
+  children,
+}: {
+  productKey: ProductKey;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const { open } = useProductModal();
+  return (
+    <button type="button" className={className} onClick={() => open(productKey)}>
+      {children}
+    </button>
+  );
+}
+
+export function ProductModalProvider({ children }: { children: React.ReactNode }) {
+  const [activeKey, setActiveKey] = useState<ProductKey | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const open = useCallback((key: ProductKey) => setActiveKey(key), []);
+
+  const close = useCallback(() => {
+    dialogRef.current?.close();
+  }, []);
+
+  // Native <dialog> fires `close` for Esc, the close button and backdrop clicks.
   useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+    const onClose = () => setActiveKey(null);
+    dialog.addEventListener('close', onClose);
+    return () => dialog.removeEventListener('close', onClose);
+  }, []);
+
+  // Keep the page scroll lock and the dialog state in step with activeKey.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
     if (activeKey) {
+      if (!dialog.open) dialog.showModal();
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     }
-
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     };
   }, [activeKey]);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && activeKey) {
-        onClose();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeKey, onClose]);
-
-  if (!activeKey) return null;
-
-  const product = productModalData[activeKey];
-  if (!product) return null;
+  const value = useMemo(() => ({ open }), [open]);
+  const product = activeKey ? productModalData[activeKey] : null;
 
   return (
-    <div
-      id="productModal"
-      className="modal show"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onClose();
-        }
-      }}
-    >
-      <div className="modal-content">
-        <button className="modal-close" onClick={onClose} aria-label="Close modal">
-          &times;
-        </button>
+    <ModalContext.Provider value={value}>
+      {children}
+      <dialog
+        ref={dialogRef}
+        className="modal"
+        aria-labelledby="modal-title"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) close();
+        }}
+      >
+        {product && (
+          <div className="modal-scroll">
+            <button
+              type="button"
+              className="modal-close"
+              onClick={close}
+              aria-label="ปิดหน้าต่างรายละเอียดสินค้า"
+            >
+              <CloseIcon />
+            </button>
 
-        <div className="modal-body">
-          {/* Left: Image */}
-          <div className="modal-image">
-            <img id="modalImage" src={product.image} alt={product.title} />
-          </div>
+            <div className="modal-body">
+              <div className="modal-image">
+                <Image
+                  src={product.image}
+                  alt={`ภาพ ${product.title}`}
+                  width={1000}
+                  height={1200}
+                  sizes="(max-width: 720px) 90vw, 420px"
+                  style={{ width: '100%', height: 'auto' }}
+                />
+              </div>
 
-          {/* Right: Details */}
-          <div className="modal-details">
-            <h2 id="modalTitle">{product.title}</h2>
-            <h3 id="modalSubtitle">{product.subtitle}</h3>
+              <div className="modal-details">
+                <h2 id="modal-title">{product.title}</h2>
+                <p className="modal-sub">{product.subtitle}</p>
+                {product.description && <p>{product.description}</p>}
 
-            {product.description && (
-              <p id="modalDescription">{product.description}</p>
-            )}
+                <h3>คุณสมบัติ</h3>
+                <ul className="modal-features">
+                  {product.features.map((f) => (
+                    <li key={f}>
+                      <CheckIcon />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
 
-            <div className="modal-features">
-              <h4>คุณสมบัติ:</h4>
-              <ul id="modalFeatures">
-                {product.features.map((feature, idx) => (
-                  <li key={idx}>{feature}</li>
-                ))}
-              </ul>
-            </div>
+                <h3>ข้อมูลจำเพาะ</h3>
+                <dl className="spec-dl">
+                  {product.specs.map((s) => (
+                    <div key={s.label} style={{ display: 'contents' }}>
+                      <dt>{s.label}</dt>
+                      <dd className="num">{s.value}</dd>
+                    </div>
+                  ))}
+                </dl>
 
-            <div className="modal-specs">
-              <h4>ข้อมูลจำเพาะ:</h4>
-              <div id="modalSpecs">
-                {product.specs.map((spec, idx) => (
-                  <div key={idx} className="spec-item">
-                    <strong>{spec.label}:</strong>
-                    <span>{spec.value}</span>
+                <div className="modal-foot">
+                  <div className="modal-price num">
+                    <small>ราคา</small>
+                    {product.price}
                   </div>
-                ))}
+                  <a
+                    href={SITE.line}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-solid"
+                  >
+                    สั่งซื้อทาง LINE
+                  </a>
+                </div>
               </div>
             </div>
-
-            <div className="modal-price">
-              <span>ราคา: </span>
-              <span id="modalPrice" className="price">
-                {product.price}
-              </span>
-            </div>
-
-            <a
-              href="https://page.line.me/992smxye?openQrModal=true"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-            >
-              ติดต่อสั่งซื้อ
-            </a>
           </div>
-        </div>
-      </div>
-    </div>
+        )}
+      </dialog>
+    </ModalContext.Provider>
   );
 }

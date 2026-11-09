@@ -1,19 +1,41 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata, Viewport } from 'next';
+import { IBM_Plex_Sans_Thai } from 'next/font/google';
+import { SITE } from '@/lib/site';
+import './globals.css';
+
+const plex = IBM_Plex_Sans_Thai({
+  subsets: ['thai', 'latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const description =
+  'GEF Thailand จำหน่ายเครื่องปั่นเชิงพาณิชย์สำหรับร้านกาแฟ คาเฟ่ และบาร์เครื่องดื่ม มอเตอร์ไร้แปรงถ่าน ปั่นเงียบต่ำกว่า 40 dB รับประกัน 1 ปี';
 
 export const metadata: Metadata = {
-  title: "GEF-Thailand",
-  description: "GEF-Thailand | THE FUTURE OF COMMERCIAL BLENDERS",
-  icons: {
-    icon: "/media/image/favicon.jpg",
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: 'GEF Thailand | เครื่องปั่นเชิงพาณิชย์สำหรับร้านกาแฟและบาร์',
+    template: '%s | GEF Thailand',
   },
+  description,
+  icons: { icon: '/media/image/favicon.jpg' },
   openGraph: {
-    siteName: "GEF-Thailand",
-    locale: "th_TH",
-    url: "https://gef-thailand.com/",
-    title: "GEF-Thailand",
-    description: "GEF-Thailand | THE FUTURE OF COMMERCIAL BLENDERS",
+    siteName: 'GEF Thailand',
+    locale: 'th_TH',
+    type: 'website',
+    url: SITE.url,
+    title: 'GEF Thailand | เครื่องปั่นเชิงพาณิชย์',
+    description,
+    images: ['/media/image/GEF_A9_Plus.png'],
   },
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#2f5a3a',
 };
 
 export default function RootLayout({
@@ -22,20 +44,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="th">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-      </head>
-      <body>{children}</body>
+    <html lang="th" className={plex.variable}>
+      <body>
+        <a href="#main" className="skip-link">
+          ข้ามไปยังเนื้อหาหลัก
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

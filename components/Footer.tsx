@@ -1,140 +1,104 @@
-'use client';
-
-import React from 'react';
+import Link from 'next/link';
+import {
+  ChatIcon,
+  ClockIcon,
+  FacebookIcon,
+  MailIcon,
+  PhoneIcon,
+  PinIcon,
+} from '@/components/Icons';
+import { featureProducts } from '@/lib/products';
+import { SITE } from '@/lib/site';
 
 export default function Footer() {
-  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      const targetElement = document.querySelector(href);
-      if (targetElement) {
-        const headerOffset = 80;
-        const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
-    }
-  };
-
   return (
-    <footer id="contact" className="footer">
+    <footer className="footer">
       <div className="container footer-grid">
-        <div className="footer-col brand-col">
+        <div>
           <h2 className="footer-logo">GEF</h2>
           <p>
-            นวัตกรรมเครื่องจักรสำหรับอุตสาหกรรมเครื่องดื่มระดับพรีเมียม ที่ผู้เชี่ยวชาญไว้วางใจ
+            เครื่องปั่นเชิงพาณิชย์สำหรับร้านกาแฟ คาเฟ่ และบาร์เครื่องดื่ม
+            จำหน่ายและดูแลหลังการขายโดย {SITE.company}
           </p>
-          <div className="social-links">
+          <div className="social">
             <a
-              href="https://www.facebook.com/GEFThailand/"
+              href={SITE.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Facebook"
+              aria-label="Facebook GEF Thailand"
             >
-              <i className="fab fa-facebook-f"></i>
+              <FacebookIcon />
             </a>
             <a
-              href="https://page.line.me/992smxye?openQrModal=true"
+              href={SITE.line}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Line"
+              aria-label="LINE Official GEF Thailand"
             >
-              <i className="fab fa-line"></i>
+              <ChatIcon />
             </a>
           </div>
         </div>
 
-        <div className="footer-col">
-          <h3>เกี่ยวกับเรา</h3>
-          <ul>
-            <li>
-              <a
-                href="#about-company"
-                onClick={(e) => handleAnchorClick(e, '#about-company')}
-              >
-                ประวัติบริษัท
-              </a>
-            </li>
-            <li>
-              <a
-                href="#locations"
-                onClick={(e) => handleAnchorClick(e, '#locations')}
-              >
-                สาขาทั้งหมด
-              </a>
-            </li>
-            <li>
-              <a
-                href="#reviews"
-                onClick={(e) => handleAnchorClick(e, '#reviews')}
-              >
-                ความไว้วางใจจากลูกค้า
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <div className="footer-col">
+        <div>
           <h3>สินค้า</h3>
-          <ul>
+          <ul className="footer-list">
+            {featureProducts.map((p) => (
+              <li key={p.id}>
+                <Link href={`/#${p.id}`}>{p.title}</Link>
+              </li>
+            ))}
             <li>
-              <a
-                href="#product-k9pro"
-                onClick={(e) => handleAnchorClick(e, '#product-k9pro')}
-              >
-                Huracan K9 PRO
-              </a>
-            </li>
-            <li>
-              <a
-                href="#product-a9plus"
-                onClick={(e) => handleAnchorClick(e, '#product-a9plus')}
-              >
-                GEF A9 PLUS
-              </a>
-            </li>
-            <li>
-              <a
-                href="#product-s9pro"
-                onClick={(e) => handleAnchorClick(e, '#product-s9pro')}
-              >
-                GEF S9 PRO
-              </a>
-            </li>
-            <li>
-              <a
-                href="#product-v3pro"
-                onClick={(e) => handleAnchorClick(e, '#product-v3pro')}
-              >
-                GEF V3 PRO
-              </a>
+              <Link href="/#compare">เทียบสเปกทุกรุ่น</Link>
             </li>
           </ul>
         </div>
 
-        <div className="footer-col contact-col">
+        <div>
+          <h3>บริษัท</h3>
+          <ul className="footer-list">
+            <li>
+              <Link href="/#about">เกี่ยวกับเรา</Link>
+            </li>
+            <li>
+              <Link href="/#branches">สาขา</Link>
+            </li>
+            <li>
+              <Link href="/contact">ติดต่อเรา</Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
           <h3>ติดต่อเรา</h3>
-          <p>
-            <i className="fas fa-clock"></i> จันทร์ - อาทิตย์: 08:30 - 18:00 น.
-          </p>
-          <p>
-            <i className="fas fa-envelope"></i> homglaigroup@gmail.com
-          </p>
-          <p>
-            <i className="fas fa-phone"></i> 061-771-1139
-          </p>
-          <p>
-            <i className="fas fa-map-marker-alt"></i> บริษัทหอมไกล ชลบุรี จำกัด 1/47 ม.3 ต.เสม็ด อ.เมืองชลบุรี ชลบุรี 20000
-          </p>
+          <ul className="footer-contact">
+            <li>
+              <ClockIcon />
+              <span>{SITE.hours}</span>
+            </li>
+            <li>
+              <PhoneIcon />
+              <a href={SITE.phoneHref}>{SITE.phone}</a>
+            </li>
+            <li>
+              <MailIcon />
+              <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+            </li>
+            <li>
+              <PinIcon />
+              <span>
+                {SITE.company}
+                <br />
+                {SITE.address}
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
 
       <div className="footer-bottom">
         <div className="container">
-          <p>&copy; 2026 GEF · บริษัท หอมไกล ชลบุรี จำกัด · All Rights Reserved.</p>
+          © 2026 GEF Thailand — {SITE.company} สงวนลิขสิทธิ์
         </div>
       </div>
     </footer>

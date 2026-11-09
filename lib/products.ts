@@ -113,7 +113,7 @@ export const featureProducts: FeatureProductData[] = [
     title: "Huracan K9 PRO",
     subtitle: "สุดยอดเครื่องปั่นสำหรับมืออาชีพ",
     description: "รองรับการปั่นหนักๆได้ตลอดทั้งวัน ด้วยมอเตอร์ระบบ DC ที่ให้รอบปั่นสูง ปั่นเร็ว ปั่นแรง ปั่นละเอียด เสียงเบา มาพร้อม Soundproof Cover ลดเสียงรบกวน และระบบออโต้ใช้งานได้สะดวกยิ่งขึ้น",
-    image: "/media/image/K9_Pro.png",
+    image: "/media/image/K9Details.jpg",
     imageAlt: "Huracan K9 PRO Blender",
     reverse: false,
     featureList: [
